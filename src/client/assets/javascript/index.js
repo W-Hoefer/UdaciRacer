@@ -82,7 +82,9 @@ async function handleCreateRace() {
 	const track_id = store.track_id;
 
 	// const race = TODO - invoke the API call to create the race, then save the result
+	const race = 0
 	
+	;
 
 	// TODO - update the store with the race id
 	// For the API to work properly, the race id should be race id - 1
@@ -141,7 +143,7 @@ function handleSelectPodRacer(target) {
 
 	// remove class selected from all racer options
 	const selected = document.querySelector('#racers .selected')
-	if(selected) {
+	if (selected) {
 		selected.classList.remove('selected')
 	}
 
@@ -156,7 +158,7 @@ function handleSelectTrack(target) {
 
 	// remove class selected from all track options
 	const selected = document.querySelector('#tracks .selected')
-	if(selected) {
+	if (selected) {
 		selected.classList.remove('selected')
 	}
 
@@ -332,7 +334,7 @@ async function getTracks() {
 		});
 		return data.json;
 	}
-	catch(err) {
+	catch (err) {
 		console.log('Error in getTracks: ', err);
 	}
 }
@@ -347,28 +349,29 @@ async function getRacers() {
 		});
 		return data.json;
 	}
-	catch(err) {
-		console.log('Error in getRacers: ', err);
+	catch (err) {
+		console.log('Error getting racers: ', err);
 	}
 }
 
 function createRace(player_id, track_id) {
-	player_id = parseInt(player_id)
-	track_id = parseInt(track_id)
+	//player_id = parseInt(player_id)
+	//track_id = parseInt(track_id)
 	const body = { player_id, track_id }
 	
 	return fetch(`${SERVER}/api/races`, {
 		method: 'POST',
-		...defaultFetchOpts(),
 		dataType: 'jsonp',
-		body: JSON.stringify(body)
+		body: JSON.stringify(body),
+		...defaultFetchOpts()	
 	})
 	.then(res => res.json())
-	.catch(err => console.log("Problem with createRace request::", err))
+	.catch(err => console.log("createRace failed:", err))
 }
 
 function getRace(id) {
 	// GET request to `${SERVER}/api/races/${id}`
+
 }
 
 function startRace(id) {
@@ -377,7 +380,7 @@ function startRace(id) {
 		...defaultFetchOpts(),
 	})
 	.then(res => res.json())
-	.catch(err => console.log("Problem with getRace request::", err))
+	.catch(err => console.log("getRace request failed:", err))
 }
 
 function accelerate(id) {
