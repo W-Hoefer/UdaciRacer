@@ -75,11 +75,12 @@ async function delay(ms) {
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
 	try {
-		// render starting UI
-		renderAt('#race', renderRaceStartView());
-
+		
 		// TODO - Get player_id and track_id from the store
 		const { player_id, track_id } = store;
+		
+		// render starting UI
+		renderAt('#race', renderRaceStartView(track_id, player_id));
 
 		// const race = TODO - invoke the API call to create the race, then save the result
 		const race = await createRace(player_id, track_id);
@@ -105,6 +106,7 @@ async function handleCreateRace() {
 
 function runRace(raceID) {
 	return new Promise(resolve => {
+		
 		// TODO - use Javascript's built in setInterval method to get race info every 500ms
 		const raceInterval = setInterval(async () => {
 			const race = await getRace(raceID);
@@ -144,22 +146,19 @@ async function runCountdown() {
 			// TODO - use Javascript's built in setInterval method to count down once per second
 			const countdown = setInterval(() => {
 			
-			// run this DOM manipulation to decrement the countdown for the user
-			if (timer > 0) {
+				// run this DOM manipulation to decrement the countdown for the user
+				if (timer <= 0) {
 				document.getElementById('big-numbers').innerHTML = --timer;
-			}
-
-			// TODO - if the countdown is done, clear the interval, resolve the promise, and return
-			if (timer === 0) {
+				} else {
+				
+				// TODO - if the countdown is done, clear the interval, resolve the promise, and return
 				clearInterval(countdown);
 				resolve();
-				return;
-			}
+				}
 		}, 1000)})
-	// error handling block is given
-	} catch(error) {
-		console.log(error);
-	}
+	} catch(err) {
+		console.log("Problem wit runCountdown", err);
+	};
 }
 
 function handleSelectPodRacer(target) {
@@ -208,7 +207,7 @@ function handleAccelerate() {
 function renderRacerCars(racers) {
 	if (!racers.length) {
 		return `
-			<h4>Loading Racers...</4>
+			<h4>Loading Racers...</h4>
 		`
 	}
 
@@ -237,7 +236,7 @@ function renderRacerCard(racer) {
 function renderTrackCards(tracks) {
 	if (!tracks.length) {
 		return `
-			<h4>Loading Tracks...</4>
+			<h4>Loading Tracks...</h4>
 		`
 	}
 
@@ -356,19 +355,23 @@ function defaultFetchOpts() {
 
 function getTracks() {
 	// GET request to `${SERVER}/api/tracks`
-	return fetch(`${SERVER}/api/tracks`)
+	return fetch(`${SERVER}/api/tracks`, {
+		method: 'GET',
+		...defaultFetchOpts() })
 	.then(res => res.json())
 	.catch(err => console.log("Problem with getTracks request::", err));
 }
 
 function getRacers() {
 	// GET request to `${SERVER}/api/cars`
-	return fetch(`${SERVER}/api/cars`)
+	return fetch(`${SERVER}/api/cars`, {
+		method: 'GET',
+		...defaultFetchOpts() })
 	.then(res => res.json())
 	.catch(err => console.log("Problem with getRacers request::", err));
 }
 
-// this function is already given
+// this function is already completely given
 function createRace(player_id, track_id) {
 	player_id = parseInt(player_id)
 	track_id = parseInt(track_id)
@@ -390,7 +393,7 @@ function getRace(id) {
 	track_id = parseInt(track_id);
 	const body = { player_id, track_id };
 	
-	return fetch(`${SERVER}/api/races`, {
+	return fetch(`${SERVER}/api/races/${id}`, {
 		method: 'GET',
 		...defaultFetchOpts(),
 		dataType: 'jsonp',
@@ -400,7 +403,7 @@ function getRace(id) {
 	.catch(err => console.log("Problem with getRace request::", err));
 }
 
-// this one is given already
+// this function is already completely given
 function startRace(id) {
 	return fetch(`${SERVER}/api/races/${id}/start`, {
 		method: 'POST',
