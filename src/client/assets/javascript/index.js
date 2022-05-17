@@ -87,8 +87,9 @@ async function handleCreateRace() {
 
 		// TODO - update the store with the race id
 		// For the API to work properly, the race id should be race id - 1
-		store.race_id = race.id - 1;
-		console.log(store.race_id);
+		console.log("handleCreateRace", {race, raceId: race.ID, type: typeof race.ID})
+		store.race_id = race.ID - 1;
+		
 		
 		// The race has been created, now start the countdown
 		// TODO - call the async function runCountdown
@@ -132,7 +133,7 @@ function runRace(raceID) {
 			}
 		})
 	}, 500)
-	
+	.then(res => console.log("runRace",  res))
 	// remember to add error handling for the Promise
 	.catch(err => console.log("Problem with runRace::", err));
 }
@@ -304,6 +305,7 @@ function resultsView(positions) {
 
 function raceProgress(positions) {
 	let userPlayer = positions.find(e => e.id === store.player_id)
+	console.log(userPlayer, userPlayer.driver_name);
 	userPlayer.driver_name += " (you)"
 
 	positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1)
