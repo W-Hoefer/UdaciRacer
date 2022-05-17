@@ -132,7 +132,6 @@ function runRace(raceID) {
 			}
 		})
 	}, 500)
-	.then(res => console.log("runRace",  res))
 	// remember to add error handling for the Promise
 	.catch(err => console.log("Problem with runRace::", err));
 }
