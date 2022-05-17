@@ -409,11 +409,9 @@ function startRace(id) {
 		...defaultFetchOpts()
 	})
 
-	.then(res => res.json()) // <= that's where the error message points to,
-							 // the error happens while transforming into a JS object
-							 // the JSON file is valid
-
-	.catch(err => console.log("Problem with startRace request::", err))
+	/* the error message points to the next line - JSON file is valid and checked... */
+	.then(res => res.json()) 
+	.catch(err => console.log("Problem with startRace request::", err));
 }
 
 function accelerate(id) {
