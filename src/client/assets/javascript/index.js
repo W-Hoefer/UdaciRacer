@@ -1,7 +1,7 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-let store = {
+var store = {
 	track_id: undefined,
 	player_id: undefined,
 	race_id: undefined,
@@ -27,8 +27,8 @@ async function onPageLoad() {
 				renderAt('#racers', html)
 			})
 	} catch(error) {
-		console.log("Problem getting tracks and racers ::", error.message);
-		console.error(error);
+		console.log("Problem getting tracks and racers ::", error.message)
+		console.error(error)
 	}
 }
 
@@ -56,7 +56,7 @@ function setupClickHandlers() {
 
 		// Handle acceleration click
 		if (target.matches('#gas-peddle')) {
-			handleAccelerate()
+			handleAccelerate(target)
 		}
 
 	}, false)
@@ -79,17 +79,16 @@ async function handleCreateRace() {
 		// TODO - Get player_id and track_id from the store
 		const { player_id, track_id } = store;
 		
-		// render starting UI
-		renderAt('#race', renderRaceStartView(track_id, player_id));
-
 		// const race = TODO - invoke the API call to create the race, then save the result
 		const race = await createRace(player_id, track_id);
+
+		// render starting UI
+		renderAt('#race', renderRaceStartView(race.Track, race.Cars));
 
 		// TODO - update the store with the race id
 		// For the API to work properly, the race id should be race id - 1
 		console.log("handleCreateRace", {race, raceId: race.ID, type: typeof race.ID})
 		store.race_id = race.ID - 1;
-		
 		
 		// The race has been created, now start the countdown
 		// TODO - call the async function runCountdown
@@ -160,7 +159,7 @@ async function runCountdown() {
 			}, 1000)
 		})
 	} catch(err) {
-		console.log("Problem wit runCountdown", err);
+		console.log("Problem with runCountdown::", err);
 	};
 }
 
@@ -210,7 +209,7 @@ function handleAccelerate() {
 function renderRacerCars(racers) {
 	if (!racers.length) {
 		return `
-			<h4>Loading Racers...</h4>
+			<h4>Loading Racers...</4>
 		`
 	}
 
@@ -305,7 +304,6 @@ function resultsView(positions) {
 
 function raceProgress(positions) {
 	let userPlayer = positions.find(e => e.id === store.player_id)
-	console.log(userPlayer, userPlayer.driver_name);
 	userPlayer.driver_name += " (you)"
 
 	positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1)
@@ -349,8 +347,8 @@ function defaultFetchOpts() {
 		mode: 'cors',
 		headers: {
 			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin' : SERVER,
-		},
+			'Access-Control-Allow-Origin' : SERVER
+		}
 	};
 }
 
@@ -404,14 +402,17 @@ function getRace(id) {
 }
 
 // this function is already completely given
-
 function startRace(id) {
-	console.log(id);
+	console.log(id); // controls if id is passed correctly (it is)
 	return fetch(`${SERVER}/api/races/${id}/start`, {
 		method: 'POST',
-		...defaultFetchOpts(),
+		...defaultFetchOpts()
 	})
-	.then(res => res.json())
+
+	.then(res => res.json()) // <= that's where the error message points to,
+							 // the error happens while transforming into a JS object
+							 // the JSON file is valid
+
 	.catch(err => console.log("Problem with startRace request::", err))
 }
 
