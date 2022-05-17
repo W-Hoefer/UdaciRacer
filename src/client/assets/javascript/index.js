@@ -115,18 +115,18 @@ function runRace(raceID) {
 
 			// TODO - if the race info status property is "in-progress", update the leaderboard by calling:
 			// renderAt('#leaderBoard', raceProgress(res.positions))
-			if (res.status === "in-progress") {
-				renderAt('#leaderBoard', raceProgress(res.positions));
+			if (race.status === "in-progress") {
+				renderAt('#leaderBoard', raceProgress(race.positions));
 			}
 		
 			// TODO - if the race info status property is "finished", run the following:
-			if (res.status === "finished") {
+			if (race.status === "finished") {
 
 				// clearInterval(raceInterval) // to stop the interval from repeating
 				clearInterval(raceInterval);
 
 				// renderAt('#race', resultsView(res.positions)) // to render the results view
-				renderAt('#race', resultsView(res.positions));
+				renderAt('#race', resultsView(race.positions));
 
 				// reslove(res) // resolve the promise
 				resolve(res);
@@ -397,20 +397,22 @@ function getRace(id) {
 	// GET request to `${SERVER}/api/races/${id}`
 	return fetch(`${SERVER}/api/races/${id}`, {
 		method: 'GET',
-		...defaultFetchOpts(),
+		...defaultFetchOpts()
 	})
 	.then(res => res.json())
 	.catch(err => console.log("Problem with getRace request::", err));
 }
 
 // this function is already completely given
+
 function startRace(id) {
+	console.log(id);
 	return fetch(`${SERVER}/api/races/${id}/start`, {
 		method: 'POST',
 		...defaultFetchOpts(),
 	})
 	.then(res => res.json())
-	.catch(err => console.log("Problem with getRace request::", err))
+	.catch(err => console.log("Problem with startRace request::", err))
 }
 
 function accelerate(id) {
