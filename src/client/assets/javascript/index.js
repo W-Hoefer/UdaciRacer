@@ -88,15 +88,14 @@ async function handleCreateRace() {
 		// TODO - update the store with the race id
 		// For the API to work properly, the race id should be race id - 1
 		store.race_id = race.id - 1;
+		console.log(store.race_id);
 		
 		// The race has been created, now start the countdown
 		// TODO - call the async function runCountdown
 		await runCountdown();
 
 		// TODO - call the async function startRace
-		console.log(store.race_id);
-		let control = await startRace(store.race_id);
-		console.log(control);
+		await startRace(store.race_id);
 
 		// TODO - call the async function runRace
 		runRace(store.race_id);
@@ -360,7 +359,8 @@ function getTracks() {
 	// GET request to `${SERVER}/api/tracks`
 	return fetch(`${SERVER}/api/tracks`, {
 		method: 'GET',
-		...defaultFetchOpts() })
+		...defaultFetchOpts()
+	})
 	.then(res => res.json())
 	.catch(err => console.log("Problem with getTracks request::", err));
 }
@@ -369,7 +369,8 @@ function getRacers() {
 	// GET request to `${SERVER}/api/cars`
 	return fetch(`${SERVER}/api/cars`, {
 		method: 'GET',
-		...defaultFetchOpts() })
+		...defaultFetchOpts()
+	})
 	.then(res => res.json())
 	.catch(err => console.log("Problem with getRacers request::", err));
 }
@@ -394,7 +395,7 @@ function getRace(id) {
 	// GET request to `${SERVER}/api/races/${id}`
 	return fetch(`${SERVER}/api/races/${id}`, {
 		method: 'GET',
-		...defaultFetchOpts()
+		...defaultFetchOpts(),
 	})
 	.then(res => res.json())
 	.catch(err => console.log("Problem with getRace request::", err));
@@ -414,6 +415,7 @@ function accelerate(id) {
 	// POST request to `${SERVER}/api/races/${id}/accelerate`
 	// options parameter provided as defaultFetchOpts
 	// no body or datatype needed for this request
+
 	return fetch(`${SERVER}/api/races/${id}/accelerate`,{
 		method: 'POST',
 		...defaultFetchOpts()
