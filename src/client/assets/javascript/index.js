@@ -113,7 +113,7 @@ function runRace(raceID) {
 			const res = await getRace(raceID);
 
 			// TODO - if the race info status property is "in-progress", update the leaderboard by calling:
-			// renderAt('#leaderBoard', raceProgress(res.positions))
+			// renderAt('#leaderBoard', raceProgress(res.positions)) <= this Udacity comment is wrong! It's race.positions!
 			if (race.status === "in-progress") {
 				renderAt('#leaderBoard', raceProgress(race.positions));
 			}
@@ -346,8 +346,8 @@ function defaultFetchOpts() {
 		mode: 'cors',
 		headers: {
 			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin' : SERVER
-		}
+			'Access-Control-Allow-Origin' : SERVER,
+		},
 	};
 }
 
@@ -408,19 +408,18 @@ function startRace(id) {
 		...defaultFetchOpts()
 	})
 
-	/* the error message points to the next line - JSON file is valid and checked... */
+	// the error message points to the next line - JSON file is valid and checked...
 	.then(res => res.json()) 
 	.catch(err => console.log("Problem with startRace request::", err));
 }
 
 function accelerate(id) {
-	// POST request to `${SERVER}/api/races/${id}/accelerate`
-	// options parameter provided as defaultFetchOpts
-	// no body or datatype needed for this request
-
 	return fetch(`${SERVER}/api/races/${id}/accelerate`,{
+		// POST request to `${SERVER}/api/races/${id}/accelerate`
 		method: 'POST',
+		// options parameter provided as defaultFetchOpts
 		...defaultFetchOpts()
+		// no body or datatype needed for this request
 	})
 	.catch(err => console.log("Problem with accelerate request::", err));
 }
