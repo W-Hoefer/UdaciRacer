@@ -402,7 +402,7 @@ function getRace(id) {
 
 // this function is already completely given
 function startRace(id) {
-	console.log(id); // controls if id is passed correctly (it is)
+	console.log('ID in startRace:', id); // controls if id is passed correctly (it is)
 	return fetch(`${SERVER}/api/races/${id}/start`, {
 		method: 'POST',
 		...defaultFetchOpts()
