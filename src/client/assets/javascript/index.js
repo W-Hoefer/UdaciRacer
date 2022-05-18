@@ -87,7 +87,7 @@ async function handleCreateRace() {
 
 		// TODO - update the store with the race id
 		// For the API to work properly, the race id should be race id - 1
-		console.log("handleCreateRace", {race, raceId: race.ID, type: typeof race.ID})
+		console.log("handleCreateRace", {race, raceId: race.ID, type: typeof race.ID}) // error check
 		store.race_id = race.ID - 1;
 		
 		// The race has been created, now start the countdown
