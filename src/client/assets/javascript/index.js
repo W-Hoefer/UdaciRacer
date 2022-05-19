@@ -409,7 +409,8 @@ function startRace(id) {
 	})
 
 	// the error message points to the next line - JSON file is valid and checked...
-	.then(res => res.json()) 
+	//.then(res => res.json()) 
+	.then(res => console.log(res))
 	.catch(err => console.log("Problem with startRace request::", err));
 }
 
