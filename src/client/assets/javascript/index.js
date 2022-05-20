@@ -286,8 +286,9 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
+	console.log("raceProgress:", positions) //works
 	let userPlayer = positions.find(e => e.id === store.player_id);
-	console.log(userPlayer); // comes back undefined!
+	console.log("raceProgress:", userPlayer); // comes back undefined!
 	userPlayer.driver_name += " (you)";
 
 	positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1);
