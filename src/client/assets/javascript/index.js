@@ -135,7 +135,7 @@ async function runCountdown() {
 
 		return new Promise(resolve => {
 
-			// TODO - use Javascript's built in setInterval method to count down once per second
+			// use Javascript's built in setInterval method to count down once per second
 			const countdown = setInterval(() => {
 
 				// run this DOM manipulation to decrement the countdown for the user
@@ -165,7 +165,7 @@ function handleSelectPodRacer(target) {
 	// add class selected to current target
 	target.classList.add('selected');
 
-	// TODO - save the selected racer to the store
+	// save the selected racer to the store
 	store.player_id = target.id;
 }
 
@@ -181,13 +181,13 @@ function handleSelectTrack(target) {
 	// add class selected to current target
 	target.classList.add('selected');
 
-	// TODO - save the selected track id to the store
+	// save the selected track id to the store
 	store.player_id = target.id;
 }
 
 function handleAccelerate() {
 	console.log("accelerate button clicked");
-	// TODO - Invoke the API call to accelerate
+	// Invoke the API call to accelerate
 	accelerate(store.race_id)
 	.catch(err => console.log("Error in handleAccelerate::", err));
 }
