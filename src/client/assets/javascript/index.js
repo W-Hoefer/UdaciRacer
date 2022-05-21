@@ -286,9 +286,10 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
-	console.log("raceProgress:", positions) //works
-	let userPlayer = positions.find(e => e.id === store.player_id);
-	console.log("raceProgress:", userPlayer); // comes back undefined!
+	console.log("Positions:", positions); //works
+	let userPlayer = positions.find(e => parseInt(e.id) === parseInt(store.player_id));
+	console.log("store.player_id:", store.player_id);
+	console.log("userPlayer:", userPlayer); // comes back undefined!
 	userPlayer.driver_name += " (you)";
 
 	positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1);
